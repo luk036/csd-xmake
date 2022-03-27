@@ -1,5 +1,5 @@
 add_rules("mode.debug", "mode.release", "mode.coverage")
-add_requires("conan::doctest/2.4.8", {alias = "doctest"})
+add_requires("doctest", {alias = "doctest"})
 
 target("Csd")
     set_kind("static")
