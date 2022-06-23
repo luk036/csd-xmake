@@ -10,6 +10,9 @@ extern auto to_decimal(const std::string& csd_str) -> double;
 extern auto to_csdfixed(double num, unsigned int nnz) -> std::string;
 
 TEST_CASE("test to_csd") {
+    auto i = 3;
+    auto&& r = i;
+    CHECK(r == 3);
     CHECK(to_csd(28.5, 2) == "+00-00.+0");
     CHECK(to_csd(-0.5, 2) == "0.-0");
 }
