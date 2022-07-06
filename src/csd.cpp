@@ -17,12 +17,14 @@
 #include <cmath>   // for fabs, pow, ceil, log2
 #include <iosfwd>  // for string
 #include <string>  // for basic_string
+#include <string_view>  // for basic_string
 
 using std::ceil;
 using std::fabs;
 using std::log2;
 using std::pow;
 using std::string;
+using std::string_view;
 
 /**
  * @brief Convert to CSD (Canonical Signed Digit) string representation
@@ -71,11 +73,12 @@ auto to_csd(double num, const int places) -> string {
  * @param csd_str
  * @return double
  */
-auto to_decimal(const string& csd_str) -> double {
+auto to_decimal(string_view csd_str) -> double {
     auto num = 0.0;
     auto loc = 0U;
     auto i = 0U;
-    for (auto c : csd_str) {
+    for (; i < csd_str.size(); ++i) {
+        auto c = csd_str[i];
         if (c == '0') {
             num *= 2.0;
         } else if (c == '+') {
@@ -84,8 +87,9 @@ auto to_decimal(const string& csd_str) -> double {
             num = num * 2.0 - 1.0;
         } else if (c == '.') {
             loc = i + 1;
-        }  // else unknown character
-        ++i;
+        } else {
+            // ignore unknown characters such as '
+        }
     }
     if (loc != 0) {
         num /= pow(2.0, double(csd_str.size() - loc));

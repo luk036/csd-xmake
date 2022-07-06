@@ -10,6 +10,7 @@ target("Csd")
 target("test")
     set_kind("binary")
     add_deps("Csd")
+    add_includedirs("include", {public = true})
     add_files("tests/*.cpp")
     add_packages("doctest")
 

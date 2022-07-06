@@ -1,13 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
 #include <doctest/doctest.h>  // for ResultBuilder, CHECK_EQ, TEST_CASE
-
-#include <iosfwd>  // for string
-#include <string>  // for basic_string, operator==, operator<<
-
-extern auto to_csd(double num, int places) -> std::string;
-extern auto to_decimal(const std::string& csd_str) -> double;
-extern auto to_csdfixed(double num, unsigned int nnz) -> std::string;
+#include <csd/csd.hpp>        // for to_csd, to_decimal, to_csdfixed
 
 TEST_CASE("test to_csd") {
     CHECK_EQ(to_csd(28.5, 2), "+00-00.+0");
