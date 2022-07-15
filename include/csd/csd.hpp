@@ -1,11 +1,7 @@
 #pragma once
 
-#include <iosfwd>  // for string
-#include <string>  // for basic_string, operator==, operator<<
 #include <string_view>  // for basic_string, operator==, operator<<
-
-extern auto to_csd(double num, int places) -> std::string;
-extern auto to_csdfixed(double num, unsigned int nnz) -> std::string;
+#include <cmath>   // for fabs, pow, ceil, log2
 
 /**
  * @brief Convert the CSD string to a decimal
@@ -34,9 +30,14 @@ inline constexpr auto to_decimal(std::string_view csd_str) -> double {
         ++i;
     }
     if (loc != 0) {
-        num /= pow(2.0, double(csd_str.size() - loc));
+        num /= std::pow(2.0, double(csd_str.size() - loc));
     }
     return num;
 }
 
 
+#include <iosfwd>  // for string
+#include <string>  // for basic_string, operator==, operator<<
+
+extern auto to_csd(double num, int places) -> std::string;
+extern auto to_csdfixed(double num, unsigned int nnz) -> std::string;
