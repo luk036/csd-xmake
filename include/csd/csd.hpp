@@ -1,7 +1,7 @@
 #pragma once
 
+#include <cmath>        // for fabs, pow, ceil, log2
 #include <string_view>  // for basic_string, operator==, operator<<
-#include <cmath>   // for fabs, pow, ceil, log2
 
 /**
  * @brief Convert the CSD string to a decimal
@@ -15,7 +15,7 @@ inline constexpr auto to_decimal(std::string_view csd_str) -> double {
     auto i = 0U;
     // for (; i < csd_str.size(); ++i) {
     //     auto c = csd_str[i];
-    for (auto&& c: csd_str) {
+    for (auto&& c : csd_str) {
         if (c == '0') {
             num *= 2.0;
         } else if (c == '+') {
@@ -34,7 +34,6 @@ inline constexpr auto to_decimal(std::string_view csd_str) -> double {
     }
     return num;
 }
-
 
 #include <iosfwd>  // for string
 #include <string>  // for basic_string, operator==, operator<<
