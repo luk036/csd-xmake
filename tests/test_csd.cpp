@@ -18,3 +18,9 @@ TEST_CASE("test to_csdfixed") {
     CHECK_EQ(to_csdfixed(28.5, 4), "+00-00.+");
     CHECK_EQ(to_csdfixed(-0.5, 4), "0.-");
 }
+
+// Driver Code
+TEST_CASE("test lcsre") {
+    CHECK_EQ(longest_repeated_substring("+-00+-00+-00+-0"), "+-00+-0");
+}
+
