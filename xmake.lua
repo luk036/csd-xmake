@@ -5,14 +5,17 @@ add_requires("doctest", {alias = "doctest"})
 
 target("Csd")
     set_kind("static")
+    add_includedirs("include", {public = true})
     add_files("src/*.cpp")
+    set_warnings("all", "error")
 
-target("test")
+target("test_csd")
     set_kind("binary")
     add_deps("Csd")
     add_includedirs("include", {public = true})
     add_files("tests/*.cpp")
     add_packages("doctest")
+    set_warnings("all", "error")
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
