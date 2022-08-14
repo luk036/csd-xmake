@@ -20,7 +20,4 @@ TEST_CASE("test to_csdfixed") {
 }
 
 // Driver Code
-TEST_CASE("test lcsre") {
-    CHECK_EQ(longest_repeated_substring("+-00+-00+-00+-0"), "+-00+-0");
-}
-
+TEST_CASE("test lcsre") { CHECK_EQ(longest_repeated_substring("+-00+-00+-00+-0"), "+-00+-0"); }

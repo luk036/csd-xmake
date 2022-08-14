@@ -1,5 +1,5 @@
-#include <string_view>
 #include <string>
+#include <string_view>
 #include <vector>
 
 using std::string;
@@ -21,11 +21,9 @@ auto longest_repeated_substring(string_view sv) -> string {
     auto index = 0U;
     for (auto i = 1U; i != n + 1; ++i) {
         for (auto j = i + 1; j != n + 1; ++j) {
-
             // (j-i) > lcsre[i-1][j-1] to remove
             // overlapping
-            if (sv[i - 1] == sv[j - 1] &&
-                    lcsre[i - 1][j - 1] < (j - i)) {
+            if (sv[i - 1] == sv[j - 1] && lcsre[i - 1][j - 1] < (j - i)) {
                 lcsre[i][j] = lcsre[i - 1][j - 1] + 1;
 
                 // updating maximum length of the
