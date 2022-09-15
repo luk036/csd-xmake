@@ -44,7 +44,7 @@ auto to_csd(double num, const int places) -> string {
     auto const absnum = fabs(num);
     auto const nn = int(ceil(log2(absnum * 1.5)));
     auto n = absnum < 1.0 ? 0 : nn;
-    auto const str = absnum < 1.0 ? "0" : "";
+    const auto *const str = absnum < 1.0 ? "0" : "";
     auto csd_str = string(str);
     auto pow2n = pow(2.0, double(n - 1));
     while (n > -places) {
@@ -111,7 +111,7 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
     auto const absnum = fabs(num);
     auto const nn = int(ceil(log2(absnum * 1.5)));
     auto n = absnum < 1.0 ? 0 : nn;
-    auto const str = absnum < 1.0 ? "0" : "";
+    const auto *const str = absnum < 1.0 ? "0" : "";
     auto csd_str = string(str);
     auto pow2n = pow(2.0, double(n - 1));
     while (n > 0 || (nnz > 0 && fabs(num) > 1e-100)) {
