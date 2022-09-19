@@ -19,11 +19,11 @@ inline constexpr auto to_decimal_i(std::string_view csd_str) -> int {
     auto num = 0;
     for (auto&& c : csd_str) {
         if (c == '0') {
-            num *= 2.0;
+            num *= 2;
         } else if (c == '+') {
-            num = num * 2.0 + 1.0;
+            num = num * 2 + 1;
         } else if (c == '-') {
-            num = num * 2.0 - 1.0;
+            num = num * 2 - 1;
         } else {
             // ignore unknown characters such as '
         }
