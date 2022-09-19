@@ -1,20 +1,22 @@
 #pragma once
 
-#include <cmath>        // for fabs, pow, ceil, log2
-#include <string_view>  // for basic_string, operator==, operator<<
+#include <string_view>  // for string_view
+#include <iosfwd>  // for string
+#include <string>  // for basic_string, operator==, operator<<
+
+extern auto to_csd(double num, int places) -> std::string;
+extern auto to_csdfixed(double num, unsigned int nnz) -> std::string;
+extern auto longest_repeated_substring(std::string_view sv) -> std::string;
+extern auto to_decimal(std::string_view csd_str) -> double;
 
 /**
  * @brief Convert the CSD string to a decimal
  *
  * @param csd_str
- * @return double
+ * @return int
  */
-inline constexpr auto to_decimal(std::string_view csd_str) -> double {
-    auto num = 0.0;
-    auto loc = 0U;
-    auto i = 0U;
-    // for (; i < csd_str.size(); ++i) {
-    //     auto c = csd_str[i];
+inline constexpr auto to_decimal_i(std::string_view csd_str) -> int {
+    auto num = 0;
     for (auto&& c : csd_str) {
         if (c == '0') {
             num *= 2.0;
@@ -22,22 +24,10 @@ inline constexpr auto to_decimal(std::string_view csd_str) -> double {
             num = num * 2.0 + 1.0;
         } else if (c == '-') {
             num = num * 2.0 - 1.0;
-        } else if (c == '.') {
-            loc = i + 1;
         } else {
             // ignore unknown characters such as '
         }
-        ++i;
-    }
-    if (loc != 0) {
-        num /= std::pow(2.0, double(csd_str.size() - loc));
     }
     return num;
 }
 
-#include <iosfwd>  // for string
-#include <string>  // for basic_string, operator==, operator<<
-
-extern auto to_csd(double num, int places) -> std::string;
-extern auto to_csdfixed(double num, unsigned int nnz) -> std::string;
-extern auto longest_repeated_substring(std::string_view sv) -> std::string;
