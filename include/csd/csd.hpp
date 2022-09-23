@@ -8,6 +8,7 @@ extern auto to_csd(double num, int places) -> std::string;
 extern auto to_csdfixed(double num, unsigned int nnz) -> std::string;
 extern auto longest_repeated_substring(std::string_view sv) -> std::string;
 extern auto to_decimal(std::string_view csd_str) -> double;
+extern auto to_csd_i(int num) -> std::string;
 
 /**
  * @brief Convert the CSD string to a decimal

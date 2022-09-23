@@ -23,6 +23,10 @@ TEST_CASE("test to_decimal") {
     CHECK_EQ(to_decimal("+00-00"), 28);
 }
 
+TEST_CASE("test to_csd_i") {
+    CHECK_EQ(to_csd_i(28), "+00-00");
+}
+
 TEST_CASE("test lcsre") {  // Driver Code
     CHECK_EQ(longest_repeated_substring("+-00+-00+-00+-0"), "+-00+-0"); 
 }

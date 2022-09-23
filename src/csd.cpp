@@ -21,6 +21,7 @@
 
 using std::ceil;
 using std::fabs;
+using std::abs;
 using std::log2;
 using std::pow;
 using std::string;
@@ -39,30 +40,70 @@ using std::string_view;
  */
 auto to_csd(double num, const int places) -> string {
     if (num == 0.0) {
-        return string("0");
+        return "0";
     }
     auto const absnum = fabs(num);
     auto const nn = int(ceil(log2(absnum * 1.5)));
     auto n = absnum < 1.0 ? 0 : nn;
-    const auto *const str = absnum < 1.0 ? "0" : "";
+    auto const* const str = absnum < 1.0 ? "0" : "";
     auto csd_str = string(str);
-    auto pow2n = pow(2.0, double(n - 1));
+    auto pow2n = pow(2.0, double(n));
     while (n > -places) {
         if (n == 0) {
             csd_str += '.';
         }
         n -= 1;
-        auto const d = 1.5 * num;
+        auto const pow2n_half = pow2n / 2;
+        auto const d = 3.0 * num;
         if (d > pow2n) {
             csd_str += '+';
-            num -= pow2n;
+            num -= pow2n_half;
         } else if (d < -pow2n) {
             csd_str += '-';
-            num += pow2n;
+            num += pow2n_half;
         } else {
             csd_str += '0';
         }
-        pow2n /= 2.0;
+        pow2n = pow2n_half;
+    }
+    return csd_str;
+}
+
+/**
+ * @brief Convert to CSD (Canonical Signed Digit) string representation
+ *
+ * Original author: Harnesser
+ * https://sourceforge.net/projects/pycsd/
+ * License: GPL2
+ *
+ * @param num
+ * @param places
+ * @return string
+ */
+auto to_csd_i(int num) -> string {
+    if (num == 0) {
+        return "0";
+    }
+    auto const absnum = abs(num);
+    auto const nn = int(ceil(log2(absnum * 1.5)));
+    auto n = absnum < 1.0 ? 0 : nn;
+    auto const* const str = absnum < 1.0 ? "0" : "";
+    auto csd_str = string{str};
+    auto pow2n = int(pow(2.0, double(n)));
+    while (n > 0) {
+        n -= 1;
+        auto const pow2n_half = pow2n / 2;
+        auto const d = 3 * num;
+        if (d > pow2n) {
+            csd_str += '+';
+            num -= pow2n_half;
+        } else if (d < -pow2n) {
+            csd_str += '-';
+            num += pow2n_half;
+        } else {
+            csd_str += '0';
+        }
+        pow2n = pow2n_half;
     }
     return csd_str;
 }
