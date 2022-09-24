@@ -46,25 +46,27 @@ auto to_csd(double num, const int places) -> string {
     auto const nn = int(ceil(log2(absnum * 1.5)));
     auto n = absnum < 1.0 ? 0 : nn;
     auto const* const str = absnum < 1.0 ? "0" : "";
-    auto csd_str = string(str);
+    auto csd_str = string{str};
     auto pow2n = pow(2.0, double(n));
     while (n > -places) {
         if (n == 0) {
             csd_str += '.';
         }
-        n -= 1;
         auto const pow2n_half = pow2n / 2;
         auto const d = 3.0 * num;
         if (d > pow2n) {
             csd_str += '+';
             num -= pow2n_half;
-        } else if (d < -pow2n) {
+        } 
+        else if (d < -pow2n) {
             csd_str += '-';
             num += pow2n_half;
-        } else {
+        }
+        else {
             csd_str += '0';
         }
         pow2n = pow2n_half;
+        n -= 1;
     }
     return csd_str;
 }
@@ -85,13 +87,10 @@ auto to_csd_i(int num) -> string {
         return "0";
     }
     auto const absnum = abs(num);
-    auto const nn = int(ceil(log2(absnum * 1.5)));
-    auto n = absnum < 1.0 ? 0 : nn;
-    auto const* const str = absnum < 1.0 ? "0" : "";
-    auto csd_str = string{str};
+    auto n = int(ceil(log2(absnum * 1.5)));
+    auto csd_str = string{""};
     auto pow2n = int(pow(2.0, double(n)));
     while (n > 0) {
-        n -= 1;
         auto const pow2n_half = pow2n / 2;
         auto const d = 3 * num;
         if (d > pow2n) {
@@ -104,6 +103,7 @@ auto to_csd_i(int num) -> string {
             csd_str += '0';
         }
         pow2n = pow2n_half;
+        n -= 1;
     }
     return csd_str;
 }
@@ -117,9 +117,9 @@ auto to_csd_i(int num) -> string {
 auto to_decimal(string_view csd_str) -> double {
     auto num = 0.0;
     auto loc = 0U;
-    auto i = 0U;
     // for (; i < csd_str.size(); ++i) {
     //     auto c = csd_str[i];
+    auto i = 0U; 
     for (auto&& c : csd_str) {
         if (c == '0') {
             num *= 2.0;
@@ -149,32 +149,34 @@ auto to_decimal(string_view csd_str) -> double {
  */
 auto to_csdfixed(double num, unsigned int nnz) -> string {
     if (num == 0.0) {
-        return string("0");
+        return "0";
     }
     auto const absnum = fabs(num);
     auto const nn = int(ceil(log2(absnum * 1.5)));
     auto n = absnum < 1.0 ? 0 : nn;
-    const auto *const str = absnum < 1.0 ? "0" : "";
-    auto csd_str = string(str);
-    auto pow2n = pow(2.0, double(n - 1));
+    auto const *const str = absnum < 1.0 ? "0" : "";
+    auto csd_str = string{str};
+    auto pow2n = pow(2.0, double(n));
     while (n > 0 || (nnz > 0 && fabs(num) > 1e-100)) {
         if (n == 0) {
             csd_str += '.';
         }
-        n -= 1;
-        auto const d = 1.5 * num;
+        auto const pow2n_half = pow2n / 2;
+        auto const d = 3.0 * num;
         if (d > pow2n) {
             csd_str += '+';
-            num -= pow2n;
+            num -= pow2n_half;
             nnz -= 1;
         } else if (d < -pow2n) {
             csd_str += '-';
-            num += pow2n;
+            num += pow2n_half;
             nnz -= 1;
         } else {
             csd_str += '0';
         }
-        pow2n /= 2.0;
+        pow2n = pow2n_half;
+        n -= 1;
+
         if (nnz == 0) {
             num = 0.0;
         }
