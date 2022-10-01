@@ -2,6 +2,7 @@ set_languages("c++17")
 
 add_rules("mode.debug", "mode.release", "mode.coverage")
 add_requires("doctest", {alias = "doctest"})
+add_requires("fmt", {alias = "fmt"})
 
 target("Csd")
     set_kind("static")
@@ -15,6 +16,7 @@ target("test_csd")
     add_includedirs("include", {public = true})
     add_files("tests/*.cpp")
     add_packages("doctest")
+    add_packages("fmt")
     set_warnings("all", "error")
 
 --

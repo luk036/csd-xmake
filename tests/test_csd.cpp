@@ -1,10 +1,12 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
 #include <doctest/doctest.h>  // for ResultBuilder, CHECK_EQ, TEST_CASE
+#include <fmt/format.h>
 
 #include <csd/csd.hpp>  // for to_csd, to_decimal, to_csdfixed
 
 TEST_CASE("test to_csd") {
+    fmt::print("test: {}\n", to_csd(28.2, 2));
     CHECK_EQ(to_csd(28.5, 2), "+00-00.+0");
     CHECK_EQ(to_csd(-0.5, 2), "0.-0");
 }

@@ -43,10 +43,17 @@ auto to_csd(double num, const int places) -> string {
         return "0";
     }
     auto const absnum = fabs(num);
-    auto const nn = int(ceil(log2(absnum * 1.5)));
-    auto n = absnum < 1.0 ? 0 : nn;
-    auto const* const str = absnum < 1.0 ? "0" : "";
-    auto csd_str = string{str};
+
+    double n;
+    string csd_str;
+    if (absnum < 1.0) {
+        n = 0;
+        csd_str = string{"0"};
+    }
+    else {
+        n = int(ceil(log2(absnum * 1.5)));
+        csd_str = string{""};
+    }
     auto pow2n = pow(2.0, double(n));
     while (n > -places) {
         if (n == 0) {
@@ -57,13 +64,13 @@ auto to_csd(double num, const int places) -> string {
         if (d > pow2n) {
             csd_str += '+';
             num -= pow2n_half;
-        } 
-        else if (d < -pow2n) {
-            csd_str += '-';
-            num += pow2n_half;
-        }
-        else {
-            csd_str += '0';
+        } else {
+            if (d < -pow2n) {
+                csd_str += '-';
+                num += pow2n_half;
+            } else {
+                csd_str += '0';
+            }
         }
         pow2n = pow2n_half;
         n -= 1;
@@ -152,10 +159,17 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
         return "0";
     }
     auto const absnum = fabs(num);
-    auto const nn = int(ceil(log2(absnum * 1.5)));
-    auto n = absnum < 1.0 ? 0 : nn;
-    auto const *const str = absnum < 1.0 ? "0" : "";
-    auto csd_str = string{str};
+
+    double n;
+    string csd_str;
+    if (absnum < 1.0) {
+        n = 0;
+        csd_str = string{"0"};
+    } else {
+        n = int(ceil(log2(absnum * 1.5)));
+        csd_str = string{""};
+    }
+
     auto pow2n = pow(2.0, double(n));
     while (n > 0 || (nnz > 0 && fabs(num) > 1e-100)) {
         if (n == 0) {
@@ -167,12 +181,14 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
             csd_str += '+';
             num -= pow2n_half;
             nnz -= 1;
-        } else if (d < -pow2n) {
-            csd_str += '-';
-            num += pow2n_half;
-            nnz -= 1;
         } else {
-            csd_str += '0';
+            if (d < -pow2n) {
+                csd_str += '-';
+                num += pow2n_half;
+                nnz -= 1;
+            } else {
+                csd_str += '0';
+            }
         }
         pow2n = pow2n_half;
         n -= 1;
