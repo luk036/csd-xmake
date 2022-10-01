@@ -44,8 +44,8 @@ auto to_csd(double num, const int places) -> string {
     }
     auto const absnum = fabs(num);
 
-    double n;
-    string csd_str;
+    int n; // yes, not yet initialized
+    string csd_str; // yes, not yet initialzed
     if (absnum < 1.0) {
         n = 0;
         csd_str = string{"0"};
@@ -160,8 +160,8 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
     }
     auto const absnum = fabs(num);
 
-    double n;
-    string csd_str;
+    int n; // yes, not yet initialized
+    string csd_str; // yes, not yet initialzed
     if (absnum < 1.0) {
         n = 0;
         csd_str = string{"0"};
