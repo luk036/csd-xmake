@@ -20,14 +20,14 @@
 #include <string_view>  // for string_view
 #include <utility>      // for pair
 
+using std::abs;
 using std::ceil;
 using std::fabs;
-using std::abs;
 using std::log2;
+using std::pair;
 using std::pow;
 using std::string;
 using std::string_view;
-using std::pair;
 
 /**
  * @brief Convert to CSD (Canonical Signed Digit) string representation
@@ -45,8 +45,8 @@ auto to_csd(double num, const int places) -> string {
         return "0";
     }
     auto const absnum = fabs(num);
-    auto temp = int(ceil(log2(absnum * 1.5)));
-    auto [rem, csd] = absnum < 1.0 ? pair{0, string{"0"}} : pair{temp, string{""}};
+    auto temp = ceil(log2(absnum * 1.5));
+    auto [rem, csd] = absnum < 1.0 ? pair{0.0, string{"0"}} : pair{temp, string{""}};
 
     // int rem; // yes, not yet initialized
     // string csd; // yes, not yet initialzed
@@ -58,12 +58,13 @@ auto to_csd(double num, const int places) -> string {
     //     rem = int(ceil(log2(absnum * 1.5)));
     //     csd = string{""};
     // }
-    auto p2n = pow(2.0, double(rem));
-    for (; rem > -places; --rem) {
-        if (rem == 0) {
+    auto p2n = pow(2.0, rem);
+    auto const eps = pow(2.0, double(-places));
+    while (p2n > eps) {
+        if (p2n == 1.0) {
             csd += '.';
         }
-        auto const p2n_half = p2n / 2;
+        auto const p2n_half = p2n / 2.0;
         auto const det = 3.0 * num;
         if (det > p2n) {
             csd += '+';
@@ -97,10 +98,9 @@ auto to_csd_i(int num) -> string {
         return "0";
     }
     auto const absnum = abs(num);
-    auto rem = int(ceil(log2(absnum * 1.5)));
+    auto p2n = int(pow(2.0, ceil(log2(absnum * 1.5))));
     auto csd = string{""};
-    auto p2n = int(pow(2.0, double(rem)));
-    for (; rem > 0; --rem) {
+    while (p2n > 1) {
         auto const p2n_half = p2n / 2;
         auto const det = 3 * num;
         if (det > p2n) {
@@ -128,7 +128,7 @@ auto to_decimal(string_view csd) -> double {
     auto loc = 0U;
     // for (; i < csd.size(); ++i) {
     //     auto digit = csd[i];
-    auto pos = 0U; 
+    auto pos = 0U;
     for (auto digit : csd) {
         if (digit == '0') {
             num *= 2.0;
@@ -161,15 +161,15 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
         return "0";
     }
     auto const absnum = fabs(num);
-    auto temp = int(ceil(log2(absnum * 1.5)));
-    auto [rem, csd] = absnum < 1.0 ? pair{0, string{"0"}} : pair{temp, string{""}};
+    auto temp = ceil(log2(absnum * 1.5));
+    auto [rem, csd] = absnum < 1.0 ? pair{0.0, string{"0"}} : pair{temp, string{""}};
 
-    auto p2n = pow(2.0, double(rem));
-    while (rem > 0 || (nnz > 0 && fabs(num) > 1e-100)) {
-        if (rem == 0) {
+    auto p2n = pow(2.0, rem);
+    while (p2n > 1.0 || (nnz > 0 && fabs(num) > 1e-100)) {
+        if (p2n == 1.0) {
             csd += '.';
         }
-        auto const p2n_half = p2n / 2;
+        auto const p2n_half = p2n / 2.0;
         auto const det = 3.0 * num;
         if (det > p2n) {
             csd += '+';
@@ -185,7 +185,6 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
             }
         }
         p2n = p2n_half;
-        rem -= 1;
 
         if (nnz == 0) {
             num = 0.0;
