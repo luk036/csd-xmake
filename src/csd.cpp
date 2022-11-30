@@ -59,7 +59,7 @@ auto to_csd(double num, const int places) -> string {
     //     csd = string{""};
     // }
     auto p2n = pow(2.0, rem);
-    auto const eps = pow(2.0, double(-places));
+    auto const eps = pow(2.0, -places);
     while (p2n > eps) {
         if (p2n == 1.0) {
             csd += '.';
@@ -97,9 +97,8 @@ auto to_csd_i(int num) -> string {
     if (num == 0) {
         return "0";
     }
-    auto const absnum = abs(num);
-    auto p2n = int(pow(2.0, ceil(log2(absnum * 1.5))));
-    auto csd = string{""};
+    int p2n(pow(2.0, ceil(log2(abs(num) * 1.5))));
+    string csd("");
     while (p2n > 1) {
         auto const p2n_half = p2n / 2;
         auto const det = 3 * num;
@@ -144,7 +143,7 @@ auto to_decimal(string_view csd) -> double {
         ++pos;
     }
     if (loc != 0) {
-        num /= std::pow(2.0, double(csd.size() - loc));
+        num /= std::pow(2.0, csd.size() - loc);
     }
     return num;
 }
