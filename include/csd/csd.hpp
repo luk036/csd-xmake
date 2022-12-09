@@ -1,8 +1,8 @@
 #pragma once
 
-#include <string_view>  // for string_view
-#include <iosfwd>  // for string
-#include <string>  // for basic_string, operator==, operator<<
+#include <iosfwd>      // for string
+#include <string>      // for basic_string, operator==, operator<<
+#include <string_view> // for string_view
 
 extern auto to_csd(double num, int places) -> std::string;
 extern auto to_csdfixed(double num, unsigned int nnz) -> std::string;
@@ -17,18 +17,17 @@ extern auto to_csd_i(int num) -> std::string;
  * @return int
  */
 inline constexpr auto to_decimal_i(std::string_view csd) -> int {
-    auto num = 0;
-    for (auto digit : csd) {
-        if (digit == '0') {
-            num *= 2;
-        } else if (digit == '+') {
-            num = num * 2 + 1;
-        } else if (digit == '-') {
-            num = num * 2 - 1;
-        } else {
-            // ignore unknown characters such as '
-        }
+  auto num = 0;
+  for (auto digit : csd) {
+    if (digit == '0') {
+      num *= 2;
+    } else if (digit == '+') {
+      num = num * 2 + 1;
+    } else if (digit == '-') {
+      num = num * 2 - 1;
+    } else {
+      // ignore unknown characters such as '
     }
-    return num;
+  }
+  return num;
 }
-
