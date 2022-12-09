@@ -64,20 +64,19 @@ auto to_csd(double num, const int places) -> string {
         if (p2n == 1.0) {
             csd += '.';
         }
-        auto const p2n_half = p2n / 2.0;
-        auto const det = 3.0 * num;
+        p2n /= 2.0;
+        auto const det = 1.5 * num;
         if (det > p2n) {
             csd += '+';
-            num -= p2n_half;
+            num -= p2n;
         } else {
             if (det < -p2n) {
                 csd += '-';
-                num += p2n_half;
+                num += p2n;
             } else {
                 csd += '0';
             }
         }
-        p2n = p2n_half;
     }
     return csd;
 }
@@ -168,23 +167,21 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
         if (p2n == 1.0) {
             csd += '.';
         }
-        auto const p2n_half = p2n / 2.0;
-        auto const det = 3.0 * num;
+        p2n /= 2.0;
+        auto const det = 1.5 * num;
         if (det > p2n) {
             csd += '+';
-            num -= p2n_half;
+            num -= p2n;
             nnz -= 1;
         } else {
             if (det < -p2n) {
                 csd += '-';
-                num += p2n_half;
+                num += p2n;
                 nnz -= 1;
             } else {
                 csd += '0';
             }
         }
-        p2n = p2n_half;
-
         if (nnz == 0) {
             num = 0.0;
         }
