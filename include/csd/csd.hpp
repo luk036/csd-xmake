@@ -4,6 +4,8 @@
 #include <string>      // for basic_string, operator==, operator<<
 #include <string_view> // for string_view
 
+namespace csd {
+
 extern auto to_csd(double num, int places) -> std::string;
 extern auto to_csdfixed(double num, unsigned int nnz) -> std::string;
 extern auto longest_repeated_substring(std::string_view sv) -> std::string;
@@ -32,3 +34,4 @@ inline constexpr auto to_decimal_i(std::string_view csd) -> int {
   }
   return num;
 }
+} // namespace csd

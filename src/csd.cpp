@@ -1,3 +1,4 @@
+/// @file csd.cpp
 /**
  Canonical Signed Digit Functions
 
@@ -29,6 +30,7 @@ using std::pow;
 using std::string;
 using std::string_view;
 
+namespace csd {
 /**
  * @brief Convert to CSD (Canonical Signed Digit) string representation
  *
@@ -128,21 +130,21 @@ auto to_decimal_using_switch(string_view csd) -> double {
   auto pos = 0U;
   for (auto digit : csd) {
     switch (digit) {
-      case '0':
-        num = num * 2.0;
-        break;
-      case '+':
-        num = num * 2.0 + 1.0;
-        break;
-      case '-':
-        num = num * 2.0 - 1.0;
-        break;
-      case '.':
-        loc = pos + 1;
-        break;
-      default:
-        // ignore unknown characters such as '
-        break;
+    case '0':
+      num = num * 2.0;
+      break;
+    case '+':
+      num = num * 2.0 + 1.0;
+      break;
+    case '-':
+      num = num * 2.0 - 1.0;
+      break;
+    case '.':
+      loc = pos + 1;
+      break;
+    default:
+      // ignore unknown characters such as '
+      break;
     }
     ++pos;
   }
@@ -226,3 +228,4 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
   }
   return csd;
 }
+} // namespace csd

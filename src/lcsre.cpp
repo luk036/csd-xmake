@@ -1,3 +1,4 @@
+/// @file lcsre.cpp
 #include <string>
 #include <string_view>
 #include <vector>
@@ -6,6 +7,7 @@ using std::string;
 using std::string_view;
 using std::vector;
 
+namespace csd {
 // C++ program to find the longest repeated
 // non-overlapping substring
 
@@ -56,3 +58,4 @@ auto longest_repeated_substring(string_view sv) -> string {
 }
 
 // This code is contributed by ita_c
+} // namespace csd
