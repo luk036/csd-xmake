@@ -1,10 +1,10 @@
 /// @file lcsre.cpp
 #include <string>
-#include <string_view>
+// #include <string_view>
 #include <vector>
 
 using std::string;
-using std::string_view;
+// using std::string_view;
 using std::vector;
 
 namespace csd {
@@ -13,9 +13,9 @@ namespace csd {
 
 // Returns the longest repeating non-overlapping
 // substring in sv
-auto longest_repeated_substring(string_view sv) -> string {
-  const auto n = sv.size();
-  auto lcsre = vector(n + 1, vector(n + 1, 0U));
+auto longest_repeated_substring(const char *sv, size_t n) -> string {
+  auto lcsre =
+      vector<vector<unsigned int>>(n + 1, vector<unsigned int>(n + 1, 0U));
 
   auto res_length = 0U; // To store length of result
 
