@@ -47,10 +47,6 @@ auto to_csd(double num, const int places) -> string {
     return "0";
   }
   auto const absnum = fabs(num);
-  // auto temp = ceil(log2(absnum * 1.5));
-  // auto [rem, csd] =
-  //     absnum < 1.0 ? pair{0.0, string{"0"}} : pair{temp, string{""}};
-
   double rem; // yes, not yet initialized
   string csd; // yes, not yet initialzed
   if (absnum < 1.0) {
@@ -162,10 +158,8 @@ auto to_decimal_using_switch(const char *csd) -> double {
 auto to_decimal(const char *csd) -> double {
   auto num = 0.0;
   auto loc = 0U;
-  // for (; i < csd.size(); ++i) {
-  //     auto digit = csd[i];
   auto pos = 0U;
-  for (; *csd != '\0'; ++csd) {
+  for (;; ++csd) {
     auto digit = *csd;
     if (digit == '0') {
       num *= 2.0;
@@ -175,6 +169,8 @@ auto to_decimal(const char *csd) -> double {
       num = num * 2.0 - 1.0;
     } else if (digit == '.') {
       loc = pos + 1;
+    } else if (digit == '\0') {
+      break;
     } else {
       // ignore unknown characters such as '
     }
@@ -198,10 +194,6 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
     return "0";
   }
   auto const absnum = fabs(num);
-  // auto temp = ceil(log2(absnum * 1.5));
-  // auto [rem, csd] =
-  //     absnum < 1.0 ? pair{0.0, string{"0"}} : pair{temp, string{""}};
-
   double rem; // yes, not yet initialized
   string csd; // yes, not yet initialzed
   if (absnum < 1.0) {

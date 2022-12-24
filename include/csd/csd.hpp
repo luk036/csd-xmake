@@ -21,7 +21,7 @@ extern auto to_csd_i(int num) -> std::string;
  */
 inline auto to_decimal_i(const char *csd) -> int {
   auto num = 0;
-  for (; *csd != '\0'; ++csd) {
+  for (;; ++csd) {
     auto digit = *csd;
     if (digit == '0') {
       num *= 2;
@@ -29,6 +29,8 @@ inline auto to_decimal_i(const char *csd) -> int {
       num = num * 2 + 1;
     } else if (digit == '-') {
       num = num * 2 - 1;
+    } else if (digit == '\0') {
+      break;
     } else {
       // ignore unknown characters such as '
     }
