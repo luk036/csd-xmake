@@ -47,15 +47,13 @@ auto to_csd(double num, const int places) -> string {
     return "0";
   }
   auto const absnum = fabs(num);
-  double rem; // yes, not yet initialized
-  string csd; // yes, not yet initialzed
-  if (absnum < 1.0) {
-    rem = 0.0;
-    csd = string{"0"};
-  } else {
+  double rem{0.0};
+  string csd{"0"};
+  if (absnum >= 1.0) {
     rem = ceil(log2(absnum * 1.5));
     csd = string{""};
   }
+
   auto p2n = pow(2.0, rem);
   auto const eps = pow(2.0, -places);
   while (p2n > eps) {
@@ -121,8 +119,7 @@ auto to_csd_i(int num) -> string {
  */
 auto to_decimal_using_switch(const char *csd) -> double {
   auto num = 0.0;
-  auto loc = 0U;
-  auto pos = 0U;
+  const char *loc_ptr = nullptr;
   for (; *csd != '\0'; ++csd) {
     switch (*csd) {
     case '0':
@@ -135,16 +132,15 @@ auto to_decimal_using_switch(const char *csd) -> double {
       num = num * 2.0 - 1.0;
       break;
     case '.':
-      loc = pos + 1;
+      loc_ptr = csd + 1;
       break;
     default:
       // ignore unknown characters such as '
       break;
     }
-    ++pos;
   }
-  if (loc != 0) {
-    num /= std::pow(2.0, pos - loc);
+  if (loc_ptr != nullptr) {
+    num /= std::pow(2.0, csd - loc_ptr);
   }
   return num;
 }
@@ -157,8 +153,8 @@ auto to_decimal_using_switch(const char *csd) -> double {
  */
 auto to_decimal(const char *csd) -> double {
   auto num = 0.0;
-  auto loc = 0U;
-  auto pos = 0U;
+  // auto loc = 0U;
+  const char *loc_ptr = nullptr;
   for (;; ++csd) {
     auto digit = *csd;
     if (digit == '0') {
@@ -168,16 +164,15 @@ auto to_decimal(const char *csd) -> double {
     } else if (digit == '-') {
       num = num * 2.0 - 1.0;
     } else if (digit == '.') {
-      loc = pos + 1;
+      loc_ptr = csd + 1;
     } else if (digit == '\0') {
       break;
     } else {
       // ignore unknown characters such as '
     }
-    ++pos;
   }
-  if (loc != 0) {
-    num /= std::pow(2.0, pos - loc);
+  if (loc_ptr != nullptr) {
+    num /= std::pow(2.0, csd - loc_ptr);
   }
   return num;
 }
@@ -194,12 +189,9 @@ auto to_csdfixed(double num, unsigned int nnz) -> string {
     return "0";
   }
   auto const absnum = fabs(num);
-  double rem; // yes, not yet initialized
-  string csd; // yes, not yet initialzed
-  if (absnum < 1.0) {
-    rem = 0.0;
-    csd = string{"0"};
-  } else {
+  double rem{0.0};
+  string csd{"0"};
+  if (absnum >= 1.0) {
     rem = ceil(log2(absnum * 1.5));
     csd = string{""};
   }
