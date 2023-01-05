@@ -19,7 +19,7 @@
 #include <iosfwd> // for string
 #include <string> // for basic_string
 // #include <string_view> // for string_view
-#include <utility> // for pair
+// #include <utility> // for pair
 
 using std::abs;
 using std::ceil;
@@ -46,7 +46,7 @@ auto to_csd(double num, const int places) -> string {
   if (num == 0.0) {
     return "0";
   }
-  auto const absnum = fabs(num);
+  auto absnum = fabs(num);
   double rem{0.0};
   string csd{"0"};
   if (absnum >= 1.0) {
@@ -92,7 +92,7 @@ auto to_csd_i(int num) -> string {
   if (num == 0) {
     return "0";
   }
-  int p2n = static_cast<int>(pow(2.0, ceil(log2(abs(num) * 1.5))));
+  auto p2n = int(pow(2.0, ceil(log2(abs(num) * 1.5))));
   string csd("");
   while (p2n > 1) {
     auto const p2n_half = p2n / 2;
