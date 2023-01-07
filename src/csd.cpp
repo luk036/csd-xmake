@@ -18,17 +18,13 @@
 #include <cmath>  // for fabs, pow, ceil, log2
 #include <iosfwd> // for string
 #include <string> // for basic_string
-// #include <string_view> // for string_view
-// #include <utility> // for pair
 
 using std::abs;
 using std::ceil;
 using std::fabs;
 using std::log2;
-// using std::pair;
 using std::pow;
 using std::string;
-// using std::string_view;
 
 namespace csd {
 /**
@@ -42,7 +38,7 @@ namespace csd {
  * @param places
  * @return string
  */
-auto to_csd(double num, const int places) -> string {
+[[nodiscard]] auto to_csd(double num, const int places) -> string {
   if (num == 0.0) {
     return "0";
   }
@@ -88,7 +84,7 @@ auto to_csd(double num, const int places) -> string {
  * @param places
  * @return string
  */
-auto to_csd_i(int num) -> string {
+[[nodiscard]] auto to_csd_i(int num) -> string {
   if (num == 0) {
     return "0";
   }
@@ -117,10 +113,11 @@ auto to_csd_i(int num) -> string {
  * @param csd
  * @return double
  */
-auto to_decimal_using_switch(const char *csd) -> double {
+[[nodiscard]] auto to_decimal_using_switch(const char *csd) -> double {
+  static const auto null_char = '\0'; // avoid nullptr
+  const auto *loc_ptr = &null_char;
   auto num = 0.0;
-  const char *loc_ptr = nullptr;
-  for (; *csd != '\0'; ++csd) {
+  for (; *csd != null_char; ++csd) {
     switch (*csd) {
     case '0':
       num = num * 2.0;
@@ -139,7 +136,7 @@ auto to_decimal_using_switch(const char *csd) -> double {
       break;
     }
   }
-  if (loc_ptr != nullptr) {
+  if (loc_ptr != &null_char) {
     num /= std::pow(2.0, csd - loc_ptr);
   }
   return num;
@@ -151,10 +148,10 @@ auto to_decimal_using_switch(const char *csd) -> double {
  * @param csd
  * @return double
  */
-auto to_decimal(const char *csd) -> double {
+[[nodiscard]] auto to_decimal(const char *csd) -> double {
+  static const auto null_char = '\0'; // avoid nullptr
+  const auto *loc_ptr = &null_char;
   auto num = 0.0;
-  // auto loc = 0U;
-  const char *loc_ptr = nullptr;
   for (;; ++csd) {
     auto digit = *csd;
     if (digit == '0') {
@@ -165,13 +162,13 @@ auto to_decimal(const char *csd) -> double {
       num = num * 2.0 - 1.0;
     } else if (digit == '.') {
       loc_ptr = csd + 1;
-    } else if (digit == '\0') {
+    } else if (digit == null_char) {
       break;
     } else {
       // ignore unknown characters such as '
     }
   }
-  if (loc_ptr != nullptr) {
+  if (loc_ptr != &null_char) {
     num /= std::pow(2.0, csd - loc_ptr);
   }
   return num;
@@ -184,7 +181,7 @@ auto to_decimal(const char *csd) -> double {
  * @param[in] nnz number of non-zero
  * @return string
  */
-auto to_csdfixed(double num, unsigned int nnz) -> string {
+[[nodiscard]] auto to_csdfixed(double num, unsigned int nnz) -> string {
   if (num == 0.0) {
     return "0";
   }
