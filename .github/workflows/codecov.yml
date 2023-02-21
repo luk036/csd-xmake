@@ -27,7 +27,7 @@ jobs:
       - name: Run tests
         run: |
           xmake --version
-          xmake f -m converage -y
+          xmake f -m coverage -y
           xmake
           xmake run test_csd
 
