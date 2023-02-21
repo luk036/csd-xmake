@@ -10,6 +10,10 @@ target("Csd")
     add_includedirs("include", {public = true})
     add_files("src/*.cpp")
     set_warnings("all", "error")
+    if is_mode("coverage") then
+        add_cxflags("-ftest-coverage", "-fprofile-arcs", {force = true})
+    end
+
 
 target("test_csd")
     set_kind("binary")
@@ -18,6 +22,9 @@ target("test_csd")
     add_packages("doctest")
     add_packages("fmt")
     set_warnings("all", "error")
+    if is_mode("coverage") then
+        add_cxflags("-ftest-coverage", "-fprofile-arcs", {force = true})
+    end
 
 target("test_switch")
     set_kind("binary")
@@ -25,6 +32,9 @@ target("test_switch")
     add_files("bench/test_switch.cpp")
     add_packages("benchmark")
     set_warnings("all", "error")
+    if is_mode("coverage") then
+        add_cxflags("-ftest-coverage", "-fprofile-arcs", {force = true})
+    end
 
 --
 -- If you want to known more usage about xmake, please see https://xmake.io
