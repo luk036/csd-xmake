@@ -114,7 +114,7 @@ namespace csd {
  * @return double
  */
 [[nodiscard]] auto to_decimal_using_switch(const char *csd) -> double {
-  static const auto null_char = '\0'; // avoid nullptr
+  static const auto null_char = '\0'; // avoid nullptr for cppfront
   const auto *loc_ptr = &null_char;
   auto num = 0.0;
   for (; *csd != null_char; ++csd) {
@@ -149,7 +149,7 @@ namespace csd {
  * @return double
  */
 [[nodiscard]] auto to_decimal(const char *csd) -> double {
-  static const auto null_char = '\0'; // avoid nullptr
+  static const auto null_char = '\0'; // avoid nullptr for cppfront
   const auto *loc_ptr = &null_char;
   auto num = 0.0;
   for (;; ++csd) {
