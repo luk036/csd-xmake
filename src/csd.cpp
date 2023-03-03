@@ -38,7 +38,7 @@ namespace csd {
  * @param places
  * @return string
  */
-[[nodiscard]] auto to_csd(double num, const int places) -> string {
+auto to_csd(double num, const int places) -> string {
   if (num == 0.0) {
     return "0";
   }
@@ -84,7 +84,7 @@ namespace csd {
  * @param places
  * @return string
  */
-[[nodiscard]] auto to_csd_i(int num) -> string {
+auto to_csd_i(int num) -> string {
   if (num == 0) {
     return "0";
   }
@@ -113,27 +113,26 @@ namespace csd {
  * @param csd
  * @return double
  */
-[[nodiscard]] auto to_decimal_using_switch(const char *csd) -> double {
+auto to_decimal_using_switch(const char *csd) -> double {
   static const auto null_char = '\0'; // avoid nullptr for cppfront
   const auto *loc_ptr = &null_char;
   auto num = 0.0;
   for (; *csd != null_char; ++csd) {
     switch (*csd) {
     case '0':
-      num = num * 2.0;
+      num = 2.0 * num;
       break;
     case '+':
-      num = num * 2.0 + 1.0;
+      num = 2.0 * num + 1.0;
       break;
     case '-':
-      num = num * 2.0 - 1.0;
+      num = 2.0 * num - 1.0;
       break;
     case '.':
       loc_ptr = csd + 1;
       break;
     default:
-      // ignore unknown characters such as '
-      break;
+      exit(1); // unknown character
     }
   }
   if (loc_ptr != &null_char) {
@@ -155,17 +154,17 @@ namespace csd {
   for (;; ++csd) {
     auto digit = *csd;
     if (digit == '0') {
-      num *= 2.0;
+      num = 2.0 * num;
     } else if (digit == '+') {
-      num = num * 2.0 + 1.0;
+      num = 2.0 * num + 1.0;
     } else if (digit == '-') {
-      num = num * 2.0 - 1.0;
+      num = 2.0 * num - 1.0;
     } else if (digit == '.') {
       loc_ptr = csd + 1;
     } else if (digit == null_char) {
       break;
     } else {
-      // ignore unknown characters such as '
+      exit(1); // unknown character
     }
   }
   if (loc_ptr != &null_char) {
