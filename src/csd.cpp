@@ -108,79 +108,13 @@ auto to_csd_i(int num) -> string {
 }
 
 /**
- * @brief Convert the CSD string to a decimal
- *
- * @param csd
- * @return double
- */
-auto to_decimal_using_switch(const char *csd) -> double {
-  static const auto null_char = '\0'; // avoid nullptr for cppfront
-  const auto *loc_ptr = &null_char;
-  auto num = 0.0;
-  for (; *csd != null_char; ++csd) {
-    switch (*csd) {
-    case '0':
-      num = 2.0 * num;
-      break;
-    case '+':
-      num = 2.0 * num + 1.0;
-      break;
-    case '-':
-      num = 2.0 * num - 1.0;
-      break;
-    case '.':
-      loc_ptr = csd + 1;
-      break;
-    default:
-      exit(1); // unknown character
-    }
-  }
-  if (loc_ptr != &null_char) {
-    num /= std::pow(2.0, csd - loc_ptr);
-  }
-  return num;
-}
-
-/**
- * @brief Convert the CSD string to a decimal
- *
- * @param csd
- * @return double
- */
-[[nodiscard]] auto to_decimal(const char *csd) -> double {
-  static const auto null_char = '\0'; // avoid nullptr for cppfront
-  const auto *loc_ptr = &null_char;
-  auto num = 0.0;
-  for (;; ++csd) {
-    auto digit = *csd;
-    if (digit == '0') {
-      num = 2.0 * num;
-    } else if (digit == '+') {
-      num = 2.0 * num + 1.0;
-    } else if (digit == '-') {
-      num = 2.0 * num - 1.0;
-    } else if (digit == '.') {
-      loc_ptr = csd + 1;
-    } else if (digit == null_char) {
-      break;
-    } else {
-      exit(1); // unknown character
-    }
-  }
-  if (loc_ptr != &null_char) {
-    num /= std::pow(2.0, csd - loc_ptr);
-  }
-  return num;
-}
-
-/**
  * @brief Convert to CSD (Canonical Signed Digit) string representation
  *
  * @param[in] num
  * @param[in] nnz number of non-zero
  * @return string
  */
-[[nodiscard]] auto to_csdfixed(double num, unsigned int nnz) -> string {
+auto to_csdfixed(double num, unsigned int nnz) -> string {
   if (num == 0.0) {
     return "0";
   }

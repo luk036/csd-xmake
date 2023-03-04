@@ -6,7 +6,8 @@ using namespace csd;
 static void using_if_else(benchmark::State &state) {
   // Code inside this loop is measured repeatedly
   for (auto _ : state) {
-    auto result = to_decimal("+00-00+00+0-0+0+.+00+00-0++");
+    auto test = std::string("+00-00+00+0-0+0+.+00+00-0++");
+    auto result = to_decimal(test.c_str());
     // Make sure the variable is not optimized away by compiler
     benchmark::DoNotOptimize(result);
   }
@@ -17,7 +18,8 @@ BENCHMARK(using_if_else);
 static void using_switch(benchmark::State &state) {
   // Code inside this loop is measured repeatedly
   for (auto _ : state) {
-    auto result = to_decimal_using_switch("+00-00+00+0-0+0+.+00+00-0++");
+    auto test = std::string("+00-00+00+0-0+0+.+00+00-0++");
+    auto result = to_decimal_using_switch(test.c_str());
     // Make sure the variable is not optimized away by compiler
     benchmark::DoNotOptimize(result);
   }
